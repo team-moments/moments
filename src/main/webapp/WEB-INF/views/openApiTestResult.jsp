@@ -11,17 +11,8 @@
 <META name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no"> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 <body>
-    <h1>API 요청 결과</h1>
 
-    <div>
-        <h3>응답 내용</h3>
-        <pre>${apiResponse}</pre>
-    </div>
-
-    <div>
-        <h3>에러 메시지</h3>
-        <pre>${error}</pre>
-    </div>
 </body>
 </html>

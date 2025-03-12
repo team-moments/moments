@@ -1,9 +1,12 @@
 package kr.co.moments;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
 import kr.co.moments.api.OpenApiApplication;
+import kr.co.moments.domain.DailyPriceVO;
+import kr.co.moments.domain.GoodsVO;
+
+
+
 
 @Controller
 public class HomeController {
@@ -27,13 +36,21 @@ public class HomeController {
     
     @GetMapping("/openApiTest")
     public String openApiTest(Model model) {
-        try {
-            // API 요청 보내고 결과를 모델에 추가
-            String apiResponse = openApi.sendApiRequest();
-            model.addAttribute("apiResponse", apiResponse);
-        } catch (Exception e) {
-            model.addAttribute("error", "API 요청에 실패했습니다.");
-        }
+    	try {
+			openApi.sendApiRequest();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//        try {
+//            // API 요청 보내고 결과를 모델에 추가
+//            String apiResponse = openApi.sendApiRequest();
+//            model.addAttribute("apiResponse", apiResponse);
+//           
+//            
+//        } catch (Exception e) {
+//            model.addAttribute("error", "API 요청에 실패했습니다.");
+//        }
 
         // 결과를 JSP로 반환
         return "openApiTestResult"; // openApiTestResult.jsp

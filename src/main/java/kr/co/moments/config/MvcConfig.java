@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -65,13 +66,22 @@ public class MvcConfig implements WebMvcConfigurer{
 		return dataSource;
 	}
 
-	// Mybatis
-	@Bean
-	public SqlSessionFactory sqlSessionFactory() throws Exception {
-		SqlSessionFactoryBean ssf = new SqlSessionFactoryBean();
-		ssf.setDataSource(dataSource()); 
-		return ssf.getObject();
-	}	
+//	// Mybatis
+//	@Bean
+//	public SqlSessionFactory sqlSessionFactory() throws Exception {
+//		SqlSessionFactoryBean ssf = new SqlSessionFactoryBean();
+//		ssf.setDataSource(dataSource()); 
+//		return ssf.getObject();
+//	}
+	// mybatis
+    @Bean
+    public SqlSessionFactory sqlSessionFactory() throws Exception {
+        SqlSessionFactoryBean ssf = new SqlSessionFactoryBean();
+        ssf.setDataSource(dataSource());
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        ssf.setMapperLocations(resolver.getResources("classpath:/*/**.xml"));
+        return ssf.getObject();
+    }
 	
 	// 트랜잭션 설정
 	@Bean
