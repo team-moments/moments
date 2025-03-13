@@ -4,18 +4,19 @@
 
 	<insert id="goodsInsert" parameterType="kr.co.moments.domain.GoodsVO">
 		insert into tb_goods (
-			goods_id, goods_name, goods_image, category_no
+			goods_id, goods_name, goods_image, category_no, wish_cnt
 		) values (
-			#{goods_id}, #{goods_name}, #{goods_image}, #{category_no}
+			#{goods_id}, #{goods_name}, #{goods_image}, #{category_no}, 0
 		);
 	</insert>
+	
 	<insert id="dailyPriceInsert" parameterType="kr.co.moments.domain.DailyPriceVO">
 		insert into tb_daily_price (
 			goods_id, register_date, price
 		) values (
 			#{goods_id}, now(), #{price}
 		);
-	</insert>
+	</insert> 
 	
 	
 </mapper>
