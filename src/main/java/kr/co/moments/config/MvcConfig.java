@@ -38,7 +38,6 @@ public class MvcConfig implements WebMvcConfigurer{
 	@Value("${db.userpassword}")
 	private String userpassword;
 	
-	
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		configurer.enable();
@@ -66,22 +65,13 @@ public class MvcConfig implements WebMvcConfigurer{
 		return dataSource;
 	}
 
-//	// Mybatis
-//	@Bean
-//	public SqlSessionFactory sqlSessionFactory() throws Exception {
-//		SqlSessionFactoryBean ssf = new SqlSessionFactoryBean();
-//		ssf.setDataSource(dataSource()); 
-//		return ssf.getObject();
-//	}
-	// mybatis
-    @Bean
-    public SqlSessionFactory sqlSessionFactory() throws Exception {
-        SqlSessionFactoryBean ssf = new SqlSessionFactoryBean();
-        ssf.setDataSource(dataSource());
-        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        ssf.setMapperLocations(resolver.getResources("classpath:/*/**.xml"));
-        return ssf.getObject();
-    }
+	// Mybatis
+	@Bean
+	public SqlSessionFactory sqlSessionFactory() throws Exception {
+		SqlSessionFactoryBean ssf = new SqlSessionFactoryBean();
+		ssf.setDataSource(dataSource()); 
+		return ssf.getObject();
+	}
 	
 	// 트랜잭션 설정
 	@Bean
@@ -99,4 +89,3 @@ public class MvcConfig implements WebMvcConfigurer{
 		return property;
 	}
 }
-
