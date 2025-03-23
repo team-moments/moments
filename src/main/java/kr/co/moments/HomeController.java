@@ -36,24 +36,13 @@ public class HomeController {
     
     @GetMapping("/openApiTest")
     public String openApiTest(Model model) {
-    	try {
-			openApi.sendApiRequest();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//        try {
-//            // API 요청 보내고 결과를 모델에 추가
-//            String apiResponse = openApi.sendApiRequest();
-//            model.addAttribute("apiResponse", apiResponse);
-//           
-//            
-//        } catch (Exception e) {
-//            model.addAttribute("error", "API 요청에 실패했습니다.");
-//        }
-
-        // 결과를 JSP로 반환
-        return "openApiTestResult"; // openApiTestResult.jsp
+    	//db 저장
+//    	try {
+//			openApi.sendApiRequest();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+        return "openApiTestResult"; 
     
     }
 }

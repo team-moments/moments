@@ -37,7 +37,7 @@ public final class OpenApiApplication {
 	
     private final static String REQUEST_METHOD = "GET";
     private final static String DOMAIN = "https://api-gateway.coupang.com";
-    private final static String URL = "/v2/providers/affiliate_open_api/apis/openapi/products/bestcategories/";//"/v2/providers/affiliate_open_api/apis/openapi/v1/deeplink";
+    private final static String URL = "/v2/providers/affiliate_open_api/apis/openapi/products/bestcategories/";
     private static final List<Integer> CATEGORY_IDS = Arrays.asList(
             1001,1002,1010,1011,1012,1013,1014,1015,1016,
             1017,1018,1019,1020,1021,1024,1025,1026,1029,1030);
@@ -64,25 +64,23 @@ public final class OpenApiApplication {
 	
 	        org.apache.http.HttpResponse httpResponse = HttpClientBuilder.create().build().execute(host, request);
 	        System.out.println(URL+CATEGORY_IDS.get(i)+LIMIT);
-//	        String responseString = EntityUtils.toString(httpResponse.getEntity());
-//            System.out.println("📢 API 응답: " + responseString); // 디버깅용 출력
-	        // JSON 객체 생성
 	        JSONObject jsonObject = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
 	
 	        // "data" 배열을 JSONArray로 변환
 	        JSONArray dataArray = jsonObject.getJSONArray("data");
-	
+	        
 	        // 변환된 JSONArray 출력
 	        for (int j= 0; j < dataArray.length(); j++) {
 	            JSONObject product = dataArray.getJSONObject(j);
+	            String productId = String.valueOf(product.get("productId"));
+	            
 	            GoodsVO goodsVO = new GoodsVO();
 	            DailyPriceVO dailyPriceVO = new DailyPriceVO();
-	            //goodsVO.setGoods_no(j);
 	            goodsVO.setCategory_no(CATEGORY_IDS.get(i));
 	            goodsVO.setGoods_name(product.getString("productName"));
 	            goodsVO.setGoods_image(product.getString("productImage"));
-	            goodsVO.setGoods_id(product.getInt("productId"));
-	            dailyPriceVO.setGoods_id(product.getInt("productId"));
+	            goodsVO.setGoods_id(productId);
+	            dailyPriceVO.setGoods_id(productId);
 	            dailyPriceVO.setPrice(product.getInt("productPrice"));
 	            
 	            int resultGoods = service.insertGoods(goodsVO);
@@ -91,8 +89,6 @@ public final class OpenApiApplication {
 	            System.out.println("결과: " + resultGoods+" "+ resultPrice);
 	        }
         }
-     // Return response
-        //return EntityUtils.toString(httpResponse.getEntity());
     }
 
 }
