@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/* header */
+.moments_logo { 
+    height: 40px;
+}
+.icon-img {
+    height: 20px; 
+    vertical-align: middle;
+}
+#intro-moments{
+	font-family: 'Kodchasan';
+	font-style: normal;
+	color: #536FA3;
+	font-weight: 600;
+}
+/* main */
+.main{
+    margin-top: 50px;
+    text-align: center;
+}
+.input-box{
+    /* width: 541px;
+    height: 46px; */
+
+    width: 700px;
+    height: 60px; 
+    border-radius: 24px;
+    border: 1px solid #dfe1dfe5;
+    padding-left: 45px;
+    padding-right: 45px;
+}
+.search-icon{
+    position: relative;
+    left: 40px;
+    color: #9aa0a6;
+}
