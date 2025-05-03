@@ -10,6 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -36,7 +37,6 @@ public class MvcConfig implements WebMvcConfigurer{
 	private String username;
 	@Value("${db.userpassword}")
 	private String userpassword;
-	
 	
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -71,7 +71,7 @@ public class MvcConfig implements WebMvcConfigurer{
 		SqlSessionFactoryBean ssf = new SqlSessionFactoryBean();
 		ssf.setDataSource(dataSource()); 
 		return ssf.getObject();
-	}	
+	}
 	
 	// 트랜잭션 설정
 	@Bean
@@ -89,4 +89,3 @@ public class MvcConfig implements WebMvcConfigurer{
 		return property;
 	}
 }
-

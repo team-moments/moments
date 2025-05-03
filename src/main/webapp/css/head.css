@@ -1,0 +1,20 @@
+@charset "UTF-8";
+/* header */
+.moments_logo { 
+    height: 40px;
+}
+.icon-img {
+    height: 20px; 
+    vertical-align: middle;
+}
+#intro-moments{
+   font-family: 'Kodchasan';
+   font-style: normal;
+   color: #536FA3;
+   font-weight: 600;
+}
+/* main */
+.main{
+    margin-top: 50px;
+    text-align: center;
+}

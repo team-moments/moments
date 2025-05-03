@@ -1,0 +1,12 @@
+@charset "UTF-8";
+/* footer */
+footer{
+    background-color: #F49222;
+    color: white;
+}
+.first-line{
+    border-bottom: 1px solid #BDBDBD;
+}
+.second-line{
+    display: none;
+}

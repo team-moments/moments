@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.moments.goods.GoodsMapper">  
+
+	<insert id="goodsInsert" parameterType="kr.co.moments.domain.GoodsVO">
+	   insert into tb_goods (
+	      goods_id, goods_name, goods_image, category_no, wish_cnt
+	   ) values (
+	      #{goods_id}, #{goods_name}, #{goods_image}, #{category_no}, 0
+	   );
+	</insert>
+   
+   
+	<insert id="dailyPriceInsert" parameterType="kr.co.moments.domain.DailyPriceVO">
+	   insert into tb_daily_price (
+	      goods_id, register_date, price
+	   ) values (
+	      #{goods_id}, now(), #{price}
+	   );
+	</insert>
+
+   
+   <select id="selectAllGoods" resultType="kr.co.moments.domain.GoodsVO">
+       SELECT goods_name, goods_image
+       FROM tb_goods
+   </select>
+
+</mapper>
