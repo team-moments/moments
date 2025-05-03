@@ -11,6 +11,8 @@ import kr.co.moments.domain.GoodsVO;
 public interface GoodsMapper {
    public int goodsInsert (GoodsVO vo);
    public int dailyPriceInsert (DailyPriceVO vo);
-   public List<GoodsVO> getAllGoods();
+
+   // 상품 목록을 가져오는 SQL 쿼리 실행
+   List<GoodsVO> selectAllGoods();
 
 }

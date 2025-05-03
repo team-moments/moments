@@ -23,10 +23,10 @@ public class GoodsServiceImpl implements GoodsService{
 		return mapper.dailyPriceInsert(vo);
 	}
 
-	@Override
-	public List<GoodsVO> getAllGoods() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<GoodsVO> getAllGoods() {
+        return mapper.selectAllGoods();
+    }
+
 	
 }
