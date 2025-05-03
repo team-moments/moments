@@ -22,12 +22,29 @@
        SELECT goods_name, goods_image, category_no
        FROM tb_goods
    </select>
-   
+
    <select id="selectGoodsByCategory" parameterType="int" resultType="kr.co.moments.domain.GoodsVO">
 	    SELECT g.goods_id, g.goods_name, g.goods_image, g.category_no, p.price
 	    FROM tb_goods g
 	    JOIN tb_daily_price p ON g.goods_id = p.goods_id
 	    WHERE g.category_no = #{category_no}
 	</select>
+
+   <select id="checkGoodsExists" parameterType="String" resultType="int">
+    	SELECT COUNT(*) FROM tb_goods WHERE goods_id = #{goods_id}
+	</select>
+	
+	<!-- 상품의 오늘 가격이 이미 저장되어 있는지 확인 -->
+	<select id="checkDailyPriceExists" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM tb_daily_price 
+        WHERE goods_id = #{goods_id} 
+        AND DATE(register_date) = CURDATE();
+    </select>
+	
+	<!-- 모든 상품 정보 조회 -->
+    <select id="getAllGoods" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT goods_id FROM tb_goods;
+    </select>
+
 
 </mapper>

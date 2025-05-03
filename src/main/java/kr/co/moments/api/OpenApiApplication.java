@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ import java.util.List;
 @Data
 @PropertySource("classpath:api.properties")
 @Component
+@EnableScheduling
 public final class OpenApiApplication {
 	@Autowired
 	GoodsService service;
@@ -83,10 +85,7 @@ public final class OpenApiApplication {
 	            dailyPriceVO.setGoods_id(productId);
 	            dailyPriceVO.setPrice(product.getInt("productPrice"));
 	            
-	            int resultGoods = service.insertGoods(goodsVO);
-	            int resultPrice = service.insertPrice(dailyPriceVO);
-	            
-	            System.out.println("결과: " + resultGoods+" "+ resultPrice);
+                service.saveDailyPrice(productId, product.getInt("productPrice"));
 	        }
         }
     }
