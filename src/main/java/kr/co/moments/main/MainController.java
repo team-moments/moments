@@ -18,11 +18,7 @@ public class MainController {
 //    public String mainPage(Model model) {
 //       return "forward:/WEB-INF/views/mainpage/main.jsp";
 //    }
-    
-//    @GetMapping("/goodspage")
-//    public String goodsPage(Model model) {
-//        return "forward:/WEB-INF/views/goods.jsp";
-//    }
+
     
 
 }

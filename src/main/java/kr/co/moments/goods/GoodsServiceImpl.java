@@ -28,7 +28,13 @@ public class GoodsServiceImpl implements GoodsService{
         return mapper.selectAllGoods();
     }
 
-    
+
+    @Override
+    public List<GoodsVO> getGoodsByCategory(int category_no) {
+         return mapper.selectGoodsByCategory(category_no);  
+    }
+
+
  // 오늘 날짜에 가격 정보가 존재하는지 확인
     @Override
     public int checkDailyPriceExists(String goods_id) {
@@ -62,5 +68,6 @@ public class GoodsServiceImpl implements GoodsService{
     public List<GoodsVO> getAllGoodsInfo() {
         return mapper.getAllGoods();
     }
+
 	
 }

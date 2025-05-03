@@ -9,6 +9,8 @@ public interface GoodsService {
 public int insertGoods (GoodsVO vo);
 public int insertPrice (DailyPriceVO vo);
 public List<GoodsVO> getAllGoods();
+public List<GoodsVO> getGoodsByCategory(int category_no);
+
 //오늘 날짜에 가격 정보가 존재하는지 확인
 int checkDailyPriceExists(String goods_id);
 

@@ -10,7 +10,6 @@
 	   );
 	</insert>
    
-   
 	<insert id="dailyPriceInsert" parameterType="kr.co.moments.domain.DailyPriceVO">
 	   insert into tb_daily_price (
 	      goods_id, register_date, price
@@ -19,12 +18,18 @@
 	   );
 	</insert>
 
-   
    <select id="selectAllGoods" resultType="kr.co.moments.domain.GoodsVO">
-       SELECT goods_name, goods_image
+       SELECT goods_name, goods_image, category_no
        FROM tb_goods
    </select>
-   
+
+   <select id="selectGoodsByCategory" parameterType="int" resultType="kr.co.moments.domain.GoodsVO">
+	    SELECT g.goods_id, g.goods_name, g.goods_image, g.category_no, p.price
+	    FROM tb_goods g
+	    JOIN tb_daily_price p ON g.goods_id = p.goods_id
+	    WHERE g.category_no = #{category_no}
+	</select>
+
    <select id="checkGoodsExists" parameterType="String" resultType="int">
     	SELECT COUNT(*) FROM tb_goods WHERE goods_id = #{goods_id}
 	</select>
@@ -40,5 +45,6 @@
     <select id="getAllGoods" resultType="kr.co.moments.domain.GoodsVO">
         SELECT goods_id FROM tb_goods;
     </select>
+
 
 </mapper>
