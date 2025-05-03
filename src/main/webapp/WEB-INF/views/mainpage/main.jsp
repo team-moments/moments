@@ -35,8 +35,7 @@
                         <div class="category-button-area">
                             <button class="category-button-style">식품</button>
                             <button class="category-button-style">주방용품</button>
-                            <button class="category-button-style">생활용품
-</button>
+                            <button class="category-button-style">생활용품</button>
                             <button class="category-button-style">홈인테리어</button>
                             <button class="category-button-style">가전디지털
                             </button>
@@ -54,10 +53,8 @@
                      <div class="carousel-item">
                         <div class="category-button-area">
                             <button class="category-button-style">헬스/건강식품</button>
-                            <button class="category-button-style">국내여행
-</button>
-                            <button class="category-button-style">해외여행
-</button>
+                            <button class="category-button-style">국내여행</button>
+                            <button class="category-button-style">해외여행</button>
                             <button class="category-button-style">반려동물용품</button>
                             <button class="category-button-style">유아동패션</button>
                         </div>
@@ -75,31 +72,32 @@
         </div>
         
         
-        <!-- 상품 목록 -->
-      <div class="container mb-5">
-          <div class="row">
-              <c:forEach var="goods" items="${goodsList}">
-                  <div class="col-3 mb-4">
-                      <a href="${pageContext.request.contextPath}/goods.jsp?id=${goods.id}" class="card">                          <div class="card-body">
-                              <p class="card-text">${goods.name}</p>
-                              <p class="card-text">${goods.price}원</p>
-                          </div>
-                      </a>
-                  </div>
-                  
-              </c:forEach>
-          
-          <c:if test="${empty goodsList}">
-    <p>상품 목록이 없습니다.</p>
-</c:if>
-          </div>
-      </div>
-        
-     </div>
+			<!-- 상품 목록 -->
+			<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+			
+			<div class="container mb-5">
+			    <div class="row">
+			        <c:forEach var="goods" items="${goodsList}">
+			            <div class="col-3 mb-4">
+			                <div class="card">
+			                    <div class="card-body">
+			                        <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="width:100%; height:auto;">
+			                        <p class="card-text">${goods.goods_name}</p>
+			                    </div>
+			                </div>
+			            </div>
+			        </c:forEach>
+			
+			        <c:if test="${empty goodsList}">
+			            <p>상품 목록이 없습니다.</p>
+			        </c:if>
+			    </div>
+			</div>
+
+
+     	</div>
         <!-- footer -->
        <%@ include file="/WEB-INF/views/footer.jsp"%>
-        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        
 </body>
 </html>
