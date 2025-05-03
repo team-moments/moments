@@ -1,5 +1,7 @@
 package kr.co.moments.goods;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,12 @@ public class GoodsServiceImpl implements GoodsService{
 	@Override
 	public int insertPrice(DailyPriceVO vo) {
 		return mapper.dailyPriceInsert(vo);
+	}
+
+	@Override
+	public List<GoodsVO> getAllGoods() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
