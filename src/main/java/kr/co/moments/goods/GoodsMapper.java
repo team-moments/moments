@@ -2,6 +2,7 @@ package kr.co.moments.goods;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import kr.co.moments.domain.DailyPriceVO;
 import kr.co.moments.domain.GoodsVO;
@@ -14,5 +15,7 @@ public interface GoodsMapper {
 
    // 상품 목록을 가져오는 SQL 쿼리 실행
    List<GoodsVO> selectAllGoods();
+   
+   List<GoodsVO> selectGoodsByCategory(@Param("category_no") int getGoodsByCategory);
 
 }

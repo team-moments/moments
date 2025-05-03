@@ -9,5 +9,6 @@ public interface GoodsService {
 public int insertGoods (GoodsVO vo);
 public int insertPrice (DailyPriceVO vo);
 public List<GoodsVO> getAllGoods();
+public List<GoodsVO> getGoodsByCategory(int category_no);
 
 }

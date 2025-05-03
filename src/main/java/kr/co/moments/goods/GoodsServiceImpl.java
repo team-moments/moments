@@ -28,5 +28,11 @@ public class GoodsServiceImpl implements GoodsService{
         return mapper.selectAllGoods();
     }
 
+    @Override
+    public List<GoodsVO> getGoodsByCategory(int category_no) {
+         return mapper.selectGoodsByCategory(category_no);  
+    }
+
+
 	
 }
