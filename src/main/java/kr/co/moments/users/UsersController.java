@@ -75,7 +75,7 @@ public class UsersController {
 
 	@GetMapping("/login")
 	public String userLogin () {
-		return "users/login"; 
+		return "users/login";
 	}
 	
 	@PostMapping("/login/auth")
