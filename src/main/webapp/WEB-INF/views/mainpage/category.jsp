@@ -8,7 +8,7 @@
     <title>moments</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="${pageContext.request.contextPath}/css/category.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -24,12 +24,11 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="category-button-area">
-                           <!--  <button class="category-button-style">남성패션</button> -->
-                           <button class="category-button-style" onclick="location.href='../mainpage'">전체</button>
-                           <a href="${pageContext.request.contextPath}/goods/category?category_no=1001" class="category-button-style">여성패션</a>
-                           <a href="${pageContext.request.contextPath}/goods/category?category_no=1002" class="category-button-style">남성패션</a>
-                           <a href="${pageContext.request.contextPath}/goods/category?category_no=1010" class="category-button-style">뷰티</a>
-                           <a href="${pageContext.request.contextPath}/goods/category?category_no=1011" class="category-button-style">출산/유아동</a>
+							<a href="/mainpage" class="category-button-style">전체</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1001" class="category-button-style">여성패션</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1002" class="category-button-style">남성패션</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1010" class="category-button-style">뷰티</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1011" class="category-button-style">출산/유아동</a>
                         </div>
                     </div>
                     <div class="carousel-item">
@@ -71,7 +70,6 @@
                 </button>
             </div>
         </div>
-        
         
 			<!-- 상품 목록 -->
 			<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
