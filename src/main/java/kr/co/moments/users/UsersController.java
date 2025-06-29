@@ -4,17 +4,23 @@ package kr.co.moments.users;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.config.authentication.PasswordEncoderParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.moments.domain.UsersVO;
 import kr.co.moments.util.Sha512SaltUtil;
@@ -31,48 +37,6 @@ public class UsersController {
         return "mypage/info";
     }
     
- // 마이페이지 수정화면으로 이동
-    @GetMapping("/userEdit")
-    public String userEdit(@RequestParam("field") String field, Model model, HttpSession session) {
-        UsersVO user = (UsersVO) session.getAttribute("user");
-        model.addAttribute("user", user);
-        model.addAttribute("field", field);
-        return "mypage/userEdit";  // => /WEB-INF/views/mypage/userEdit.jsp
-    }
-
-//    // 수정 완료 시 처리
-//    @PostMapping("/userUpdate")
-//    public String userUpdate(@RequestParam("field") String field,
-//                             @RequestParam("value") String value,
-//                             HttpSession session,
-//                             RedirectAttributes redirectAttributes) {
-//        User user = (User) session.getAttribute("user");
-//
-//        switch (field) {
-//            case "name":
-//                user.setName(value);
-//                break;
-//            case "phone":
-//                user.setPhone(value);
-//                break;
-//            case "email":
-//                user.setEmail(value);
-//                break;
-//            case "password":
-//                user.setPassword(value); // 실제로는 암호화 필요
-//                break;
-//        }
-//
-//        // DB 저장 로직 (UserService 이용)
-//        // userService.update(user);
-//
-//        // 업데이트된 user 세션에 다시 저장
-//        session.setAttribute("user", user);
-//
-//        redirectAttributes.addFlashAttribute("message", "정보가 수정되었습니다.");
-//        return "redirect:/mypage/info";
-//    }
-
 	@GetMapping("/login")
 	public String userLogin () {
 		return "users/login";
@@ -137,5 +101,46 @@ public class UsersController {
 		return "users/signUpCompleted";
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	// GET 요청으로 userEdit.jsp 띄우기
+    @GetMapping("/userEdit")
+    public String userEditPage(@RequestParam("field") String field, Model model) {
+        model.addAttribute("field", field);
+        UsersVO user = service.findByUserNo(1); // !!!!!!세션에서 가져오는걸로 수정해야함(안돼있으면 로그인 페이지로)!!!!!!
+        model.addAttribute("user", user);
+        model.addAttribute("field", field);
+        return "mypage/userEdit";  
+    }
+    
+    @PostMapping("/userEdit")
+    public String updateUserInfo(
+            @RequestParam String field,
+            @RequestParam String email,
+            @RequestParam String value,
+            RedirectAttributes redirectAttributes,
+            HttpSession session
+    ) {
+        UsersVO user = (UsersVO) session.getAttribute("loginUser");
+
+        if (user == null) {
+            return "redirect:/login";
+        }
+
+        int result = service.updateUserFieldByUserEmail(user.getUsers_email(), field, value);
+        if (result > 0) {
+            redirectAttributes.addFlashAttribute("message", "회원 정보가 수정되었습니다.");
+        } else {
+            redirectAttributes.addFlashAttribute("message", "회원 정보 수정에 실패했습니다.");
+        }
+
+        return "redirect:/mypage";
+    }
+
 	
 }

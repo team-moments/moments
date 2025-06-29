@@ -8,4 +8,10 @@ public interface UsersService {
 	int userSignUp (Map<String, String> map);
 	UsersVO findByEmail(String email);
 
+	
+	
+	
+	UsersVO findByUserNo(int userNo);
+	//회원정보수정 
+	int updateUserFieldByUserEmail(String string, String field, String value);
 }

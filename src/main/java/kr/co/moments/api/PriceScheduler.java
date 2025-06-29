@@ -3,6 +3,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import kr.co.moments.wish.WishService;
+
 @Component
 public class PriceScheduler {
     
@@ -17,5 +19,12 @@ public class PriceScheduler {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @Autowired
+    private WishService wishService;
+
+    @Scheduled(cron = "0 0 * * * *") // 매 정시마다
+    public void autoCheckWishAlerts() {
+        wishService.checkAlerts();
     }
 }

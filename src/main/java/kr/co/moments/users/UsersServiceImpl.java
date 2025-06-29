@@ -47,6 +47,18 @@ public class UsersServiceImpl implements UsersService{
 	}
 	
 	
+	
+	@Override
+    public UsersVO findByUserNo(int userNo) {
+        return mapper.selectUserByUserNo(userNo);
+    }
+	
+	//회원정보수정
+	@Override
+	public int updateUserFieldByUserEmail(String userEmail, String field, String value) {
+	    return mapper.updateUserFieldByUserEmail(userEmail, field, value);
+	}
+	
 }	
 
 
