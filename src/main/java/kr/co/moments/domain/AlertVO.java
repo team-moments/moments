@@ -14,5 +14,10 @@ public class AlertVO {
 		private int wish_price;
 		private int period;
 		private Timestamp register_date;
+		
+		 // 상품 관련 정보 추가
+	    private String image;
+	    private String name;
+	    private int currentPrice;
 }	
 

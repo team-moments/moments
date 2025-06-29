@@ -2,4 +2,115 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.co.moments.wish.WishMapper">   
+
+	<!-- 전체 알림 리스트 조회 -->
+	<select id="selectAllAlerts" resultType="kr.co.moments.domain.AlertVO">
+	    SELECT a.*, g.goods_name AS name
+	    FROM tb_alert a
+	    JOIN tb_goods g ON a.goods_no = g.goods_no
+	</select>
+	
+	<!-- 유저 정보 조회 -->
+	<select id="getUserById" resultType="kr.co.moments.domain.UsersVO">
+	    SELECT * FROM tb_users WHERE users_no = #{users_no}
+	</select>
+	
+	<!-- 최신 가격 정보 조회 -->
+	<select id="getLatestPriceByGoodsId" resultType="kr.co.moments.domain.DailyPriceVO">
+	    SELECT *
+	    FROM tb_daily_price
+	    WHERE goods_id = #{goodsId}
+	    ORDER BY register_date DESC
+	    LIMIT 1
+	</select>
+	
+	<!-- 알림 상태 업데이트 -->
+	<update id="updateAlertStatus">
+	    UPDATE tb_alert
+	    SET is_achieve = #{is_achieve},
+	        is_sent = #{is_sent}
+	    WHERE alert_no = #{alert_no}
+	</update>
+	
+    <!-- 진행중 알림 -->
+    <select id="selectOngoingAlerts" resultType="kr.co.moments.domain.AlertVO">
+	    SELECT 
+	        a.*, 
+	        g.goods_name AS name, 
+	        g.goods_image AS image, 
+	        dp.price AS currentPrice
+	    FROM tb_alert a
+	    JOIN tb_goods g ON a.goods_no = g.goods_no
+	    LEFT JOIN (
+	        SELECT d1.*
+	        FROM tb_daily_price d1
+	        INNER JOIN (
+	            SELECT goods_id, MAX(register_date) AS max_date
+	            FROM tb_daily_price
+	            GROUP BY goods_id
+	        ) d2 ON d1.goods_id = d2.goods_id AND d1.register_date = d2.max_date
+	    ) dp ON g.goods_id = dp.goods_id
+	    WHERE a.users_no = #{userId}
+	      AND a.is_achieve = 0
+	      AND DATE_ADD(a.register_date, INTERVAL a.period DAY) >= NOW()
+	</select>
+
+    
+    <!-- 달성 알림 -->
+    <select id="selectAchievedAlerts" resultType="kr.co.moments.domain.AlertVO">
+	    SELECT 
+	        a.*, 
+	        g.goods_name AS name, 
+	        g.goods_image AS image, 
+	        dp.price AS currentPrice
+	    FROM tb_alert a
+	    JOIN tb_goods g ON a.goods_no = g.goods_no
+	    LEFT JOIN (
+	        SELECT d1.*
+	        FROM tb_daily_price d1
+	        INNER JOIN (
+	            SELECT goods_id, MAX(register_date) AS max_date
+	            FROM tb_daily_price
+	            GROUP BY goods_id
+	        ) d2 ON d1.goods_id = d2.goods_id AND d1.register_date = d2.max_date
+	    ) dp ON g.goods_id = dp.goods_id
+	    WHERE a.users_no = #{userId}
+	      AND a.is_achieve = 1
+	</select>
+
+
+    
+    <!-- 만료 알림 -->
+    <select id="selectExpiredAlerts" resultType="kr.co.moments.domain.AlertVO">
+	    SELECT 
+	        a.*, 
+	        g.goods_name AS name, 
+	        g.goods_image AS image, 
+	        dp.price AS currentPrice
+	    FROM tb_alert a
+	    JOIN tb_goods g ON a.goods_no = g.goods_no
+	    LEFT JOIN (
+	        SELECT d1.*
+	        FROM tb_daily_price d1
+	        INNER JOIN (
+	            SELECT goods_id, MAX(register_date) AS max_date
+	            FROM tb_daily_price
+	            GROUP BY goods_id
+	        ) d2 ON d1.goods_id = d2.goods_id AND d1.register_date = d2.max_date
+	    ) dp ON g.goods_id = dp.goods_id
+	    WHERE a.users_no = #{userId}
+	      AND a.is_achieve = 0
+	      AND DATEDIFF(NOW(), a.register_date) > a.period
+	</select>
+    
+    <!-- 삭제 -->
+    <delete id="deleteAlertById">
+        DELETE FROM tb_alert WHERE alert_no = #{alertNo}
+    </delete>
+    
+    <!-- 상품 상세 조회 -->
+    <select id="selectProductByGoodsNo" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT * FROM tb_goods WHERE goods_no = #{goodsNo}
+    </select>
+
 </mapper>

@@ -14,4 +14,18 @@
 		from tb_users
 		where users_email = #{users_email};
 	</select>
+	
+	<select id="selectUserByUserNo" parameterType="int" resultType="kr.co.moments.domain.UsersVO">
+    	SELECT * FROM tb_users WHERE users_no = #{userNo}
+	</select>
+	
+	<update id="updateUserFieldByUserEmail" parameterType="map">
+	    UPDATE tb_users
+	    SET ${field} = #{value}
+	    WHERE users_email = #{users_email}
+	</update>
+
+	
+	
+	
 </mapper>
