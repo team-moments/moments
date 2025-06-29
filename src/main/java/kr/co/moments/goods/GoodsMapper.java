@@ -20,5 +20,19 @@ public interface GoodsMapper {
    int checkGoodsExists(String goods_id);
 	int checkDailyPriceExists(String goods_id); // 오늘 날짜 가격 존재 여부 확인
    List<GoodsVO> getAllGoods(); // 모든 상품 정보 조회
+   
+   
+   
+   //4가지 정렬조건으로 상품 목록 가지고 오기 test01 
+   List<GoodsVO> selectSortedGoods(@Param("sort") String sort
+//           ,@Param("limit") int limit
+//           ,@Param("offset") int offset
+  );
+	//06.28
+   List<GoodsVO> getGoodsOrderByDropRate();
+   List<GoodsVO> getGoodsOrderByPriceAsc();
+
+  //public GoodsVO selectGoodsDetail(String goodsId);
+  public GoodsVO selectGoodsById(String goodsId);
 
 }
