@@ -85,7 +85,7 @@ public final class OpenApiApplication {
 	            dailyPriceVO.setGoods_id(productId);
 	            dailyPriceVO.setPrice(product.getInt("productPrice"));
 	            
-                service.saveDailyPrice(productId, product.getInt("productPrice"));
+//                service.saveDailyPrice(productId, product.getInt("productPrice"));
 	        }
         }
     }

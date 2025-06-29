@@ -1,19 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>moments</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="${pageContext.request.contextPath}/css/main.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-	<%@ include file="/WEB-INF/views/head.jsp"%>
-	
+    <%@ include file="/WEB-INF/views/head.jsp"%>
+
     <!-- 검색 , 카테고리 목록 -->
     <div class="main">
         <div class="input-area">
@@ -24,22 +27,20 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="category-button-area">
-                           <!--  <button class="category-button-style">남성패션</button> -->
-                           <button class="category-button-style" onclick="location.href='../mainpage'">전체</button>
-                           <a href="${pageContext.request.contextPath}/goods/category?category_no=1001" class="category-button-style">여성패션</a>
-                           <a href="${pageContext.request.contextPath}/goods/category?category_no=1002" class="category-button-style">남성패션</a>
-                           <a href="${pageContext.request.contextPath}/goods/category?category_no=1010" class="category-button-style">뷰티</a>
-                           <a href="${pageContext.request.contextPath}/goods/category?category_no=1011" class="category-button-style">출산/유아동</a>
+                            <a href="${pageContext.request.contextPath}/goods/category" class="category-button-style">전체</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1001" class="category-button-style">여성패션</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1002" class="category-button-style">남성패션</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1010" class="category-button-style">뷰티</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1011" class="category-button-style">출산/유아동</a>
                         </div>
                     </div>
                     <div class="carousel-item">
                         <div class="category-button-area">
-                        <a href="${pageContext.request.contextPath}/goods/category?category_no=1012" class="category-button-style">식품</a>
-                        <a href="${pageContext.request.contextPath}/goods/category?category_no=1013" class="category-button-style">주방용품</a>
-                        <a href="${pageContext.request.contextPath}/goods/category?category_no=1014" class="category-button-style">생활용품</a>
-                        <a href="${pageContext.request.contextPath}/goods/category?category_no=1015" class="category-button-style">홈인테리어</a>
-                        <a href="${pageContext.request.contextPath}/goods/category?category_no=1016" class="category-button-style">가전디지털</a>
-                            </button>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1012" class="category-button-style">식품</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1013" class="category-button-style">주방용품</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1014" class="category-button-style">생활용품</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1015" class="category-button-style">홈인테리어</a>
+                            <a href="${pageContext.request.contextPath}/goods/category?category_no=1016" class="category-button-style">가전디지털</a>
                         </div>
                     </div>
                     <div class="carousel-item">
@@ -51,7 +52,7 @@
                             <a href="${pageContext.request.contextPath}/goods/category?category_no=1021" class="category-button-style">문구/오피스</a>
                         </div>
                     </div>
-                     <div class="carousel-item">
+                    <div class="carousel-item">
                         <div class="category-button-area">
                             <a href="${pageContext.request.contextPath}/goods/category?category_no=1024" class="category-button-style">헬스/건강식품</a>
                             <a href="${pageContext.request.contextPath}/goods/category?category_no=1025" class="category-button-style">국내여행</a>
@@ -61,44 +62,170 @@
                         </div>
                     </div>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
             </div>
         </div>
-        
-        
-			<!-- 상품 목록 -->
-			<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-			
-			<div class="container mb-5">
-			    <div class="row">
-			        <c:forEach var="goods" items="${goodsList}">
-			            <div class="col-3 mb-4">
-			                <div class="card">
-			                    <div class="card-body">
-			                        <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="width:100%; height:auto;">
-			                        <p class="card-text">${goods.goods_name} ${goods.category_no} </p>
-			                    </div>
-			                </div>
-			            </div>
-			        </c:forEach>
-			
-			        <c:if test="${empty goodsList}">
-			            <p>상품 목록이 없습니다.</p>
-			        </c:if>
-			    </div>
-			</div>
 
+        <!-- 상품 정렬 4가지  -->
+        
+        <!-- 가격많이 하락한 순 -->
+        <h4 class="mb-3">급락순</h4>
+		<div class="container mb-5">
+		    <div class="row">
+        <c:forEach var="goods" items="${goodsListDrop}">
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_id=${goods.goods_id}'">
+                    <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="object-fit: cover; height: 200px;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">${goods.goods_name}</h5>
+                        <p class="card-text text-muted">카테고리: ${goods.category_no}</p>
+                        <p class="card-text">
+                            <strong>현재 가격: </strong>
+                            <c:choose>
+                                <c:when test="${not empty goods.price}">
+                                    <span class="text-danger fw-bold">
+                                        <fmt:formatNumber value="${goods.price}" type="number"/>원
+                                    </span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="text-secondary">가격 정보 없음</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </p>
+                        <p class="card-text">하락률: ${goods.drop_rate}</p>
+                    </div>
+                </div>
+            </div>
+        </c:forEach>
 
-     	</div>
-        <!-- footer -->
-       <%@ include file="/WEB-INF/views/footer.jsp"%>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+		        <c:if test="${empty goodsListWish}">
+		            <div class="col-12 text-center mt-5">
+		                <p class="text-muted">상품 목록이 없습니다.</p>
+		            </div>
+		        </c:if>
+		    </div>
+		</div>
+		
+		
+        <!-- 위시순 정렬 -->
+		<h4 class="mb-3">위시순</h4>
+		<div class="container mb-5">
+		    <div class="row">
+		        <c:forEach var="goods" items="${goodsListWish}">
+		            <%-- 카드 출력 동일하게 --%>
+		            <div class="col-md-3 col-sm-6 mb-4">
+		                        <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_id=${goods.goods_id}'">
+		                            <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="object-fit: cover; height: 200px;">
+		                            <div class="card-body text-center">
+		                                <h5 class="card-title">${goods.goods_name}</h5>
+		                                <p class="card-text text-muted">카테고리: ${goods.category_no}</p>
+		                                <p class="card-text">
+		                                    <strong>현재 가격: </strong>
+		                                    <c:choose>
+		                                        <c:when test="${not empty goods.price}">
+		                                            <span class="text-danger fw-bold">
+		                                                <fmt:formatNumber value="${goods.price}" type="number"/>원
+		                                            </span>
+		                                        </c:when>
+		                                        <c:otherwise>
+		                                            <span class="text-secondary">가격 정보 없음</span>
+		                                        </c:otherwise>
+		                                    </c:choose>
+		                                </p>
+		                                <p class="card-text">위시 수: ${goods.wish_cnt}</p>
+		                            </div>
+		                        </div>
+		                    </div>
+		        </c:forEach>
+		        <c:if test="${empty goodsListWish}">
+		            <div class="col-12 text-center mt-5">
+		                <p class="text-muted">상품 목록이 없습니다.</p>
+		            </div>
+		        </c:if>
+		    </div>
+		</div>
+
+        <!-- 높은 가격순 -->
+		<h4 class="mb-3">높은 가격순</h4>
+		<div class="container mb-5">
+		    <div class="row">
+		        <c:forEach var="goods" items="${goodsListDesc}"> 
+		            <%-- 카드 구성 동일하게 출력 --%> 
+		             <div class="col-md-3 col-sm-6 mb-4"> 
+		                        <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_id=${goods.goods_id}'"> 
+		                            <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="object-fit: cover; height: 200px;">
+		                            <div class="card-body text-center">
+		                                <h5 class="card-title">${goods.goods_name}</h5>
+		                                <p class="card-text text-muted">카테고리: ${goods.category_no}</p>
+		                                <p class="card-text">
+		                                    <strong>현재 가격: </strong>
+		                                    <c:choose>
+		                                        <c:when test="${not empty goods.price}">
+		                                            <span class="text-danger fw-bold">
+		                                                <fmt:formatNumber value="${goods.price}" type="number"/>원
+		                                            </span>
+		                                        </c:when>
+		                                        <c:otherwise>
+		                                            <span class="text-secondary">가격 정보 없음</span>
+		                                        </c:otherwise>
+		                                    </c:choose>
+		                                </p>
+		                                <p class="card-text">위시 수: ${goods.wish_cnt}</p>
+		                            </div>
+		                        </div>
+		                    </div>
+		        </c:forEach>
+		        <c:if test="${empty goodsListDesc}">
+		            <div class="col-12 text-center mt-5">
+		                <p class="text-muted">상품 목록이 없습니다.</p>
+		            </div>
+		        </c:if>
+		    </div>
+		</div>
+
+		<!-- 낮은 가격순 -->
+		<h4 class="mb-3">낮은 가격순</h4>
+		<div class="container mb-5">
+		    <div class="row">
+		        <c:forEach var="goods" items="${goodsListAsc}">
+		            <%-- 카드 구성 동일하게 출력 --%>
+		             <div class="col-md-3 col-sm-6 mb-4">
+		                        <div class="card h-100 shadow-sm"  onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_id=${goods.goods_id}'">
+		                            <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="object-fit: cover; height: 200px;">
+		                            <div class="card-body text-center">
+		                                <h5 class="card-title">${goods.goods_name}</h5>
+		                                <p class="card-text text-muted">카테고리: ${goods.category_no}</p>
+		                                <p class="card-text">
+		                                    <strong>현재 가격: </strong>
+		                                    <c:choose>
+		                                        <c:when test="${not empty goods.price}">
+		                                            <span class="text-danger fw-bold">
+		                                                <fmt:formatNumber value="${goods.price}" type="number"/>원
+		                                            </span>
+		                                        </c:when>
+		                                        <c:otherwise>
+		                                            <span class="text-secondary">가격 정보 없음</span>
+		                                        </c:otherwise>
+		                                    </c:choose>
+		                                </p>
+		                                <p class="card-text">위시 수: ${goods.wish_cnt}</p>
+		                            </div>
+		                        </div>
+		                    </div>
+		        </c:forEach>
+		        <c:if test="${empty goodsListAsc}">
+		            <div class="col-12 text-center mt-5">
+		                <p class="text-muted">상품 목록이 없습니다.</p>
+		            </div>
+		        </c:if>
+		    </div>
+		</div>
+		        
+		     
+        
+
+    </div>
+
+    <%@ include file="/WEB-INF/views/footer.jsp"%>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
