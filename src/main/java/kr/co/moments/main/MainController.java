@@ -17,10 +17,6 @@ public class MainController {
     @Autowired
     private MainService mainService;
     
-//    @GetMapping("/mainpage")
-//    public String mainPage(Model model) {
-//       return "forward:/WEB-INF/views/mainpage/main.jsp";
-//    }
    
    
    //수정3차
