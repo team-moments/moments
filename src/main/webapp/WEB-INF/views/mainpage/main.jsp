@@ -73,7 +73,7 @@
 		    <div class="row">
         <c:forEach var="goods" items="${goodsListDrop}">
             <div class="col-md-3 col-sm-6 mb-4">
-                <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_id=${goods.goods_id}'">
+                <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_no=${goods.goods_no}'">
                     <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="object-fit: cover; height: 200px;">
                     <div class="card-body text-center">
                         <h5 class="card-title">${goods.goods_name}</h5>
@@ -113,7 +113,7 @@
 		        <c:forEach var="goods" items="${goodsListWish}">
 		            <%-- 카드 출력 동일하게 --%>
 		            <div class="col-md-3 col-sm-6 mb-4">
-		                        <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_id=${goods.goods_id}'">
+		                        <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_no=${goods.goods_no}'">
 		                            <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="object-fit: cover; height: 200px;">
 		                            <div class="card-body text-center">
 		                                <h5 class="card-title">${goods.goods_name}</h5>
@@ -151,7 +151,7 @@
 		        <c:forEach var="goods" items="${goodsListDesc}"> 
 		            <%-- 카드 구성 동일하게 출력 --%> 
 		             <div class="col-md-3 col-sm-6 mb-4"> 
-		                        <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_id=${goods.goods_id}'"> 
+		                        <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_no=${goods.goods_no}'">
 		                            <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="object-fit: cover; height: 200px;">
 		                            <div class="card-body text-center">
 		                                <h5 class="card-title">${goods.goods_name}</h5>
@@ -189,7 +189,7 @@
 		        <c:forEach var="goods" items="${goodsListAsc}">
 		            <%-- 카드 구성 동일하게 출력 --%>
 		             <div class="col-md-3 col-sm-6 mb-4">
-		                        <div class="card h-100 shadow-sm"  onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_id=${goods.goods_id}'">
+		                        <div class="card h-100 shadow-sm"  onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_no=${goods.goods_no}'">
 		                            <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="object-fit: cover; height: 200px;">
 		                            <div class="card-body text-center">
 		                                <h5 class="card-title">${goods.goods_name}</h5>

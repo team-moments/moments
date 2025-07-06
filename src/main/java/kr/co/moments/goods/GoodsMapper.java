@@ -25,14 +25,13 @@ public interface GoodsMapper {
    
    //4가지 정렬조건으로 상품 목록 가지고 오기 test01 
    List<GoodsVO> selectSortedGoods(@Param("sort") String sort
-//           ,@Param("limit") int limit
-//           ,@Param("offset") int offset
   );
+   
 	//06.28
    List<GoodsVO> getGoodsOrderByDropRate();
    List<GoodsVO> getGoodsOrderByPriceAsc();
 
   //public GoodsVO selectGoodsDetail(String goodsId);
-  public GoodsVO selectGoodsById(String goodsId);
+  public GoodsVO selectGoodsByNo(int goodsNo);
 
 }

@@ -23,22 +23,11 @@ public class GoodsServiceImpl implements GoodsService{
 		return mapper.dailyPriceInsert(vo);
 	}
 
-//    @Override
-//    public List<GoodsVO> getAllGoods() {
-//        return mapper.selectAllGoods();
-//    }
-//
-//
-//    @Override
-//    public List<GoodsVO> getGoodsByCategory(int category_no) {
-//         return mapper.selectGoodsByCategory(category_no);  
-//    }
-
 
 	//06.28
     @Override
-    public GoodsVO getGoodsById(String goodsId) {
-        return mapper.selectGoodsById(goodsId);
+    public GoodsVO getGoodsByNo(int goodsNo) {
+        return mapper.selectGoodsByNo(goodsNo);
     }
     
     public List<GoodsVO> getSortedGoods(String sort) {
