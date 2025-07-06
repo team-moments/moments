@@ -12,4 +12,7 @@ public int insertPrice (DailyPriceVO vo);
 //06.28
 public List<GoodsVO> getSortedGoods(String sort);
 public GoodsVO getGoodsByNo(int goodsNo);
+
+public List<DailyPriceVO> getPriceHistoryLastMonth(String goods_id);
+
 }

@@ -42,6 +42,10 @@ public class GoodsServiceImpl implements GoodsService{
         }
     }
 
+    @Override
+    public List<DailyPriceVO> getPriceHistoryLastMonth(String goods_id) {
+        return mapper.selectPriceHistoryLastMonth(goods_id);
+    }
 
 
 }

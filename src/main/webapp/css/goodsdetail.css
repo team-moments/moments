@@ -207,3 +207,19 @@ hr {
 .price-box .min-price {
   color: #ec8b00;
 }
+
+
+
+/* 가격 그래프 영역 */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+canvas#priceChart {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}

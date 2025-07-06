@@ -18,9 +18,11 @@ public interface MainMapper {
 	List<GoodsVO> selectGoodsByCategory(int category_no);
 	
 	//가격순 정렬 - 카테고리별(수정 추가)
-	List<GoodsVO> selectGoodsByCategoryOrderByPriceAsc(int category_no);
-	List<GoodsVO> selectGoodsByCategoryOrderByPriceDesc(int category_no);
-	List<GoodsVO> selectGoodsByCategoryOrderByWishCountDesc(int category_no);
+	List<GoodsVO> selectGoodsByCategoryOrderByPriceAsc(int category_no); //가격
+	List<GoodsVO> selectGoodsByCategoryOrderByPriceDesc(int category_no); //가격
+	List<GoodsVO> selectGoodsByCategoryOrderByWishCountDesc(int category_no); //위시순
+	List<GoodsVO> selectGoodsByCategoryOrderByDropRateDesc(int category_no); // 급락순 
+
 
 	
 	//가격순 정렬

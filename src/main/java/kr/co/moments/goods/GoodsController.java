@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import kr.co.moments.domain.GoodsVO;
+import kr.co.moments.domain.DailyPriceVO;
+
 
 @Controller
 public class GoodsController {
@@ -35,6 +37,12 @@ public class GoodsController {
           System.out.println(">> 할인율: " + goods.getDiscount_rate());
 
           model.addAttribute("goods", goods);
+          
+          //차트
+          List<DailyPriceVO> priceHistory = goodsService.getPriceHistoryLastMonth(goods.getGoods_id());
+          model.addAttribute("priceHistory", priceHistory);
+          
+          
           return "forward:/WEB-INF/views/goodspage/goodsDetail.jsp";
       }
 

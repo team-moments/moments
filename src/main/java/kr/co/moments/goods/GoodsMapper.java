@@ -34,4 +34,7 @@ public interface GoodsMapper {
   //public GoodsVO selectGoodsDetail(String goodsId);
   public GoodsVO selectGoodsByNo(int goodsNo);
 
+  
+  List<DailyPriceVO> selectPriceHistoryLastMonth(String goods_id);
+
 }

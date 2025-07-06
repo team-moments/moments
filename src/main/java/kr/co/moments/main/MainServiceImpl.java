@@ -50,6 +50,8 @@ public class MainServiceImpl implements MainService {
 	            return mainMapper.selectGoodsByCategoryOrderByPriceDesc(category_no);
 	        case "wish_cnt":
 	            return mainMapper.selectGoodsByCategoryOrderByWishCountDesc(category_no);
+	        case "drop_rate": 
+	            return mainMapper.selectGoodsByCategoryOrderByDropRateDesc(category_no);
 	        case "price_asc":
 	        default:
 	            return mainMapper.selectGoodsByCategoryOrderByPriceAsc(category_no);

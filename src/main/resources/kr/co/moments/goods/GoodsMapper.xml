@@ -56,5 +56,19 @@
     WHERE g.goods_no = #{goodsNo}
 </select>
 
+<!-- 한달 기준 그래프 생성하기 -->
+<select id="selectPriceHistoryLastMonth" parameterType="String" resultType="kr.co.moments.domain.DailyPriceVO">
+    SELECT 
+        logs_no,
+        goods_id,
+        register_date,
+        price
+    FROM tb_daily_price
+    WHERE goods_id = #{goods_id}
+      AND register_date >= CURDATE() - INTERVAL 1 MONTH
+    ORDER BY register_date ASC
+</select>
+
+
 
 </mapper>

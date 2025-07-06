@@ -8,52 +8,46 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import kr.co.moments.domain.GoodsVO;
 
-import kr.co.moments.api.OpenApiApplication;
-
-
 @Controller
 public class MainController {
-   
+
     @Autowired
     private MainService mainService;
-    
-   
-   
-   //수정3차
-   @GetMapping("/mainpage")
-   public String mainPage(Model model) {
-       List<GoodsVO> goodsListAsc = mainService.getSortedGoods("price_asc");
-       List<GoodsVO> goodsListDesc = mainService.getSortedGoods("price_desc");
-       List<GoodsVO> goodsListWish = mainService.getGoodsWishDesc();
-       List<GoodsVO> goodsListDrop = mainService.getGoodsDropDesc(); // 
 
-       model.addAttribute("goodsListAsc", goodsListAsc);
-       model.addAttribute("goodsListDesc", goodsListDesc);
-       model.addAttribute("goodsListWish", goodsListWish);
-       model.addAttribute("goodsListDrop", goodsListDrop);
-       
+    // ✅ 복원된 mainpage - 정렬별 8개씩 각각 전달
+    @GetMapping("/mainpage")
+    public String mainPage(Model model) {
+        List<GoodsVO> goodsListAsc = mainService.getSortedGoods("price_asc");
+        List<GoodsVO> goodsListDesc = mainService.getSortedGoods("price_desc");
+        List<GoodsVO> goodsListWish = mainService.getGoodsWishDesc();
+        List<GoodsVO> goodsListDrop = mainService.getGoodsDropDesc();
 
-       return "forward:/WEB-INF/views/mainpage/main.jsp";
-   }
-   
-   
-   //카테고리별 상품 목록 띄우기 ( 버튼 선택 시 )
-   @GetMapping("/goods/category")
-   public String getGoodsByCategory(@RequestParam("category_no") int category_no, Model model) {
-       List<GoodsVO> goodsList = mainService.getGoodsByCategory(category_no);
-       model.addAttribute("goodsList", goodsList);
-       return "forward:/WEB-INF/views/mainpage/category.jsp"; 
-   }
-   
-   //수정2차
-   @GetMapping("/goods/category/sort")
-   public String getGoodsByCategory(
-           @RequestParam("category_no") int category_no,
-           @RequestParam(value = "sort", required = false, defaultValue = "price_asc") String sort,
-           Model model) {
+        model.addAttribute("goodsListAsc", goodsListAsc);
+        model.addAttribute("goodsListDesc", goodsListDesc);
+        model.addAttribute("goodsListWish", goodsListWish);
+        model.addAttribute("goodsListDrop", goodsListDrop);
 
-       List<GoodsVO> goodsList = mainService.selectGoodsCategorySorted(category_no, sort);
-       model.addAttribute("goodsList", goodsList);
-       return "forward:/WEB-INF/views/mainpage/category.jsp";
-   }
+        return "forward:/WEB-INF/views/mainpage/main.jsp";
+    }
+
+    // ✅ 카테고리별 목록
+    @GetMapping("/goods/category")
+    public String getGoodsByCategory(@RequestParam("category_no") int category_no, Model model) {
+        List<GoodsVO> goodsList = mainService.getGoodsByCategory(category_no);
+        model.addAttribute("goodsList", goodsList);
+        return "forward:/WEB-INF/views/mainpage/category.jsp";
+    }
+
+    // ✅ 카테고리별 정렬 (낮은가격순, 높은가격순, 위시순 등)
+    @GetMapping("/goods/category/sort")
+    public String getGoodsByCategory(
+            @RequestParam("category_no") int category_no,
+            @RequestParam(value = "sort", required = false, defaultValue = "price_asc") String sort,
+            Model model) {
+
+        List<GoodsVO> goodsList = mainService.selectGoodsCategorySorted(category_no, sort);
+        model.addAttribute("goodsList", goodsList);
+        model.addAttribute("category_no", category_no); // 정렬 버튼 유지용
+        return "forward:/WEB-INF/views/mainpage/category.jsp";
+    }
 }

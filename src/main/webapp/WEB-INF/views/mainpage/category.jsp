@@ -63,20 +63,22 @@
             </div>
         </div>
 
-        <!-- 정렬 기준 -->
-        <div class="rank mt-3 mb-3">
-            <a href="${pageContext.request.contextPath}/mainpage?sort=drop_rate">급락순</a> |
-            <a href="${pageContext.request.contextPath}/mainpage?sort=wish_cnt">위시순</a> |
-  			<a href="${pageContext.request.contextPath}/goods/category/sort?category_no=${param.category_no}&sort=price_asc">낮은가격순</a> |
-    		<a href="${pageContext.request.contextPath}/goods/category/sort?category_no=${param.category_no}&sort=price_desc">높은가격순</a>
-        </div>
+		<!-- 정렬 기준 -->
+		<div class="rank mt-3 mb-3">
+		    <a href="${pageContext.request.contextPath}/goods/category/sort?category_no=${param.category_no}&sort=drop_rate">급락순</a> |
+		    <a href="${pageContext.request.contextPath}/goods/category/sort?category_no=${param.category_no}&sort=wish_cnt">위시순</a> |
+		    <a href="${pageContext.request.contextPath}/goods/category/sort?category_no=${param.category_no}&sort=price_asc">낮은가격순</a> |
+		    <a href="${pageContext.request.contextPath}/goods/category/sort?category_no=${param.category_no}&sort=price_desc">높은가격순</a>
+		</div>
+
 
         <!-- 상품 목록 -->
         <div class="container mb-5">
             <div class="row">
                 <c:forEach var="goods" items="${goodsList}">
                     <div class="col-md-3 col-sm-6 mb-4">
-                        <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_id=${goods.goods_id}'">
+                        <div class="card h-100 shadow-sm" onclick="location.href='${pageContext.request.contextPath}/goodspage/goodsDetail?goods_no=${goods.goods_no}'">
+
                             <img src="${goods.goods_image}" alt="${goods.goods_name}" class="card-img-top" style="object-fit: cover; height: 200px;">
                             <div class="card-body text-center">
                                 <h5 class="card-title">${goods.goods_name}</h5>
