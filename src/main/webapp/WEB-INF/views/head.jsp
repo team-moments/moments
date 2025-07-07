@@ -10,7 +10,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet" type="text/css" />
 </head>
-
+<script>
+$.ajaxSetup({
+	  error: function(xhr) {
+	    if (xhr.status === 401 && xhr.responseText.includes("Token Expired")) {
+	      $.post('/moments/auth/refresh')
+	        .done(() => {
+	          setTimeout(() => location.reload(), 100);
+	        })
+	        .fail(() => {
+	          alert("다시 로그인 해주세요");
+	          window.location.href = '/moments/login';
+	        });
+	    }
+	  }
+	});
+</script>
 <body>
     <!-- header -->
    <header>
@@ -29,7 +44,7 @@
 	        <a class="nav-link active" aria-current="page" href="#"><img src="${pageContext.request.contextPath}/images/alert_img.png" class="icon-img"> 알림</a>
 	    </li>
 	    <li class="nav-item">
-	        <a class="nav-link" href="#"><img src="${pageContext.request.contextPath}/images/mypage_img.png" class="icon-img"> 마이페이지</a>
+	        <a class="nav-link" href="${pageContext.request.contextPath}/mypage"><img src="${pageContext.request.contextPath}/images/mypage_img.png" class="icon-img"> 마이페이지</a>
 	    </li>
 	</ul>
         </div>

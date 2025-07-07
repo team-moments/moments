@@ -1,30 +1,40 @@
 package kr.co.moments.users;
 
-
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Base64;
+import java.io.IOException;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.moments.domain.UsersVO;
-import kr.co.moments.util.Sha512SaltUtil;
+import kr.co.moments.security.JwtTokenProvider;
 
 
 @Controller
 public class UsersController {
 	@Autowired
 	UsersService service;
+	
+	@Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
     
     @GetMapping("/mypage")
     public String myPage() {
@@ -74,37 +84,56 @@ public class UsersController {
 //    }
 
 	@GetMapping("/login")
-	public String userLogin () {
+	public String userLogin (@AuthenticationPrincipal String user_email) {
 		return "users/login";
 	}
 	
-	@PostMapping("/login/auth")
-	public void loginAuth(@RequestParam Map<String,String> map, HttpSession session) {
-	    UsersVO user = service.findByEmail(map.get("email"));
-	    //로그인 실패 구
-	    if (user == null) {
-//	        return "redirect:/login?error";
-	    	 System.out.println("유저 없음");
-	    } 
+//	@PostMapping("/auth/refresh")
+//	public ResponseEntity<?> refresh(@CookieValue("refreshToken") String refreshToken,
+//	                                 HttpServletResponse response) {
+//		System.out.print("재발급");
+//	    // 1. 토큰 파싱해서 사용자 이메일 꺼냄
+//	    String email = jwtTokenProvider.getUserEmail(refreshToken);
+//
+//	    // 2. DB에 저장된 Refresh Token과 비교
+//	    UsersVO user = service.findByEmail(email);
+//	    if (user == null || !refreshToken.equals(user.getRefresh_token())) {
+//	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh");
+//	    }
+//
+//	    // 3. 새 Access Token 발급
+//	    String newAccessToken = jwtTokenProvider.createAccessToken(email);
+//
+//	    Cookie cookie = new Cookie("accessToken", newAccessToken);
+//	    cookie.setHttpOnly(true);
+//	    cookie.setPath("/");
+//	    cookie.setMaxAge(10);
+//	    response.addCookie(cookie);
+//
+//	    return ResponseEntity.ok("Access Token refreshed");
+//	}
+	@PostMapping("/auth/refresh")
+	public void refresh(
+	    @CookieValue("refreshToken") String refreshToken,
+	    HttpServletResponse response) throws IOException {
+		System.out.println("재발급");
+	  String email = jwtTokenProvider.getUserEmail(refreshToken);
+	  UsersVO user = service.findByEmail(email);
+	  if (user == null || !refreshToken.equals(user.getRefresh_token())) {
+		  response.sendRedirect("/moments/login");
+	    return;
+	  }
 
-	    // DB에서 꺼낸 salt
-	    String salt = user.getUsers_salt();
-	    // 입력 비밀번호 + salt → 해시
-	    String hashedInput = Sha512SaltUtil.hashWithSalt(salt, map.get("password"));
+	  String newAccessToken = jwtTokenProvider.createAccessToken(email);
+	  Cookie cookie = new Cookie("accessToken", newAccessToken);
+	  cookie.setPath("/");
+	  cookie.setHttpOnly(true);
+	  cookie.setMaxAge(60 * 10);
+	  response.addCookie(cookie);
 
-	    if (hashedInput.equals(user.getUsers_pwd())) {
-	        session.setAttribute("loginUser", user);
-	        //return "redirect:/dashboard";
-	        System.out.println("로그인 성공");
-	    } else {
-	   //     return "redirect:/login?error";
-	    	System.out.println("해시실패");
-	    }
+	  response.sendRedirect("/moments/mainpage"); // 원래 주소
 	}
-	
-	
-	
-	
+    
 	@GetMapping("/signUpAccept")
 	public String userSingUpAccept () {
 		return "users/signUpAccept";
@@ -118,24 +147,72 @@ public class UsersController {
 	
 	
 	@GetMapping("/signUpInfo")
-	public String usersignUpInfo (HttpSession session) {
-		Boolean validAccess = (Boolean) session.getAttribute("accessSignUpInfo");
+	public String usersignUpInfo (HttpServletResponse response, HttpSession session) {
+		// 캐시 무효화
+		response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+	    response.setHeader("Pragma", "no-cache");
+	    response.setDateHeader("Expires", 0);
 
+	    Boolean validAccess = (Boolean) session.getAttribute("accessSignUpInfo");
 	    if (validAccess == null || !validAccess) {
 	        return "redirect:/signUpAccept";
 	    }
-
 	    session.removeAttribute("accessSignUpInfo");
-	    return "users/signUpInfo"; 
+	    return "users/signUpInfo";
 	}
 	
 	@PostMapping("/signUp")
-	public String userSignUp (@RequestParam Map<String, String> map) {
+    @ResponseBody
+	public String userSignUp (@RequestBody Map<String, String> map, HttpSession session) {
+		 String plainPwd = map.get("password");
+		 String encodedPwd = passwordEncoder.encode(plainPwd);
+		 map.put("users_pwd", encodedPwd);
+		 
+		int result = service.userSignUp(map);
+
+		   if (result > 0) {
+			   session.setAttribute("signUpCompleted", true);
+		        return "redirect:/signUpcompleted"; 
+		    } else {
+		        return "fail"; //흠...
+		    }
+	}
+
+	@GetMapping("/signUpCompleted")
+	public String signUpCompleted(HttpServletResponse response, HttpSession session) {
+		// 캐시 무효화 헤더 추가
+	    response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	    response.setHeader("Pragma", "no-cache");
+	    response.setDateHeader("Expires", 0);
 		
-		int flag = service.userSignUp(map);
-		//실패 여부처리하기...
-		return "users/signUpCompleted";
+		Boolean completed = (Boolean) session.getAttribute("signUpCompleted");
+	   System.out.print(completed);
+	    if (completed == null || !completed) {
+	        return "redirect:/mainpage";  // 세션 없으면 접근 차단
+	    }
+	    session.removeAttribute("signUpCompleted");  // 한 번 보여주고 세션 삭제
+	    return "users/signUpCompleted";               // JSP 뷰 이름 반환
 	}
 	
-	
+	@PostMapping("/logout")
+	public ResponseEntity<String> logout(@CookieValue("refreshToken") String refreshToken,
+	                                     HttpServletResponse response) {
+	    String email = jwtTokenProvider.getUserEmail(refreshToken);
+	    service.deleteRefreshToken(email);
+
+	    Cookie clearAccess = new Cookie("accessToken", null);
+	    clearAccess.setMaxAge(0);
+	    clearAccess.setPath("/");
+	    clearAccess.setHttpOnly(true);
+
+	    Cookie clearRefresh = new Cookie("refreshToken", null);
+	    clearRefresh.setMaxAge(0);
+	    clearRefresh.setPath("/");
+	    clearRefresh.setHttpOnly(true);
+
+	    response.addCookie(clearAccess);
+	    response.addCookie(clearRefresh);
+
+	    return ResponseEntity.ok("Logged out");
+	}
 }
