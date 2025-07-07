@@ -11,4 +11,10 @@ public interface UsersService {
 	void updateRefreshToken(String userEmail, String refreshToken);
 	void deleteRefreshToken(String userEmail);
 
+	
+	
+	
+	UsersVO findByUserNo(int userNo);
+	//회원정보수정 
+	int updateUserFieldByUserEmail(String string, String field, String value);
 }

@@ -14,6 +14,7 @@
 		from tb_users
 		where users_email = #{user_email};
 	</select>
+
 	<!-- 리프레시 토큰 저장 -->
 	<update id="updateRefreshToken" parameterType="String">
 	    UPDATE tb_users
@@ -27,4 +28,17 @@
 	    SET refresh_token = NULL
 	    WHERE users_email = #{email}
  	</update>
+
+	
+	<select id="selectUserByUserNo" parameterType="int" resultType="kr.co.moments.domain.UsersVO">
+    	SELECT * FROM tb_users WHERE users_no = #{userNo}
+	</select>
+	
+	<update id="updateUserFieldByUserEmail" parameterType="map">
+	    UPDATE tb_users
+	    SET ${field} = #{value}
+	    WHERE users_email = #{users_email}
+	</update>
+
+
 </mapper>

@@ -18,33 +18,43 @@
 	   );
 	</insert>
 
-   <select id="selectAllGoods" resultType="kr.co.moments.domain.GoodsVO">
-       SELECT goods_name, goods_image, category_no
-       FROM tb_goods
-   </select>
 
-   <select id="selectGoodsByCategory" parameterType="int" resultType="kr.co.moments.domain.GoodsVO">
-	    SELECT g.goods_id, g.goods_name, g.goods_image, g.category_no, p.price
-	    FROM tb_goods g
-	    JOIN tb_daily_price p ON g.goods_id = p.goods_id
-	    WHERE g.category_no = #{category_no}
-	</select>
 
-   <select id="checkGoodsExists" parameterType="String" resultType="int">
-    	SELECT COUNT(*) FROM tb_goods WHERE goods_id = #{goods_id}
-	</select>
-	
-	<!-- 상품의 오늘 가격이 이미 저장되어 있는지 확인 -->
-	<select id="checkDailyPriceExists" parameterType="String" resultType="int">
-        SELECT COUNT(*) FROM tb_daily_price 
-        WHERE goods_id = #{goods_id} 
-        AND DATE(register_date) = CURDATE();
-    </select>
-	
-	<!-- 모든 상품 정보 조회 -->
-    <select id="getAllGoods" resultType="kr.co.moments.domain.GoodsVO">
-        SELECT goods_id FROM tb_goods;
-    </select>
+
+<select id="selectGoodsByNo" parameterType="int" resultType="kr.co.moments.domain.GoodsVO">
+    SELECT 
+        g.goods_no,
+        g.goods_id,
+        g.goods_name,
+        g.goods_image,
+        g.category_no,
+        g.wish_cnt,
+        c.category_name,
+        today.price AS price,
+        stats.max_price,
+        stats.min_price,
+        ROUND((stats.max_price - today.price) / stats.max_price * 100, 2) AS discount_rate
+    FROM tb_goods g
+    LEFT JOIN tb_category c ON g.category_no = c.category_no
+    LEFT JOIN (
+        SELECT goods_id, price
+        FROM (
+            SELECT goods_id, price,
+                   ROW_NUMBER() OVER (PARTITION BY goods_id ORDER BY register_date DESC) AS rn
+            FROM tb_daily_price
+        ) ranked
+        WHERE rn = 1
+    ) today ON g.goods_id = today.goods_id
+    LEFT JOIN (
+        SELECT goods_id,
+               MAX(price) AS max_price,
+               MIN(price) AS min_price
+        FROM tb_daily_price
+        WHERE register_date >= CURDATE() - INTERVAL 1 MONTH
+        GROUP BY goods_id
+    ) stats ON g.goods_id = stats.goods_id
+    WHERE g.goods_no = #{goodsNo}
+</select>
 
 
 </mapper>

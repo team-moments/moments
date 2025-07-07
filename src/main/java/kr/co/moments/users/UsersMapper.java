@@ -12,4 +12,14 @@ public interface UsersMapper {
 	int updateRefreshToken(@Param("email") String email, @Param("refreshToken") String refreshToken);
 	int deleteRefreshToken(String email);
 
+	
+	
+	//회원정보수정
+	int updateUserFieldByUserEmail(@Param("userEmail") String userEmail,
+            @Param("field") String field,
+            @Param("value") String value);
+	
+	UsersVO selectUserByUserNo(int userNo);
+
+
 }
