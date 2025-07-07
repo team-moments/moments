@@ -1,5 +1,21 @@
 @charset "UTF-8";
 
+a:visited {
+  color: inherit; /* 원래 색 유지 */
+  text-decoration: none; /* 밑줄 제거 (필요 시) */
+}
+
+a,
+a:visited,
+a:hover,
+a:active,
+a:focus {
+  text-decoration: none;
+}
+
+input::placeholder {
+  color: #BDBDBD;
+}
 
 * {
   box-sizing: border-box;
@@ -18,7 +34,7 @@ html, body {
  .wrapper {
 	 display: flex;
 	 flex-direction: column;
-	 height: 100%;
+	height: 100vh;
 	 
 }
 /* header */
@@ -51,6 +67,8 @@ header{
 	position: relative;
 	width: 100%;
 	min-width: 300px;
+	/*  min-height: calc(100vh - 300px);
+  	height: auto; 고정 height 대신 auto */
 }
 
 
