@@ -14,7 +14,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class JwtTokenProvider {
 
     private final String secretKey = "ThisIsAReallyLongSecureSecretKeyForJWTThatIsAtLeast32Bytes";
-    private final long accessTokenValidTime = 1000L * 5; //1000L * 60 * 15; // 15분
+    private final long accessTokenValidTime = 1000L * 3; //1000L * 60 * 15; // 15분
     private final long refreshTokenValidTime = 1000L * 60 * 60 * 24 * 7; // 7일
 
     // Access Token 발급

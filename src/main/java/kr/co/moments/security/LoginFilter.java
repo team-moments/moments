@@ -77,7 +77,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         accessCookie.setHttpOnly(true);
         accessCookie.setSecure(false); // 실무 배포 시 true
         accessCookie.setPath("/");
-        accessCookie.setMaxAge(10); 
+        accessCookie.setMaxAge(60 * 5); 
 
         Cookie refreshCookie = new Cookie("refreshToken", refreshToken);
         refreshCookie.setHttpOnly(true);
