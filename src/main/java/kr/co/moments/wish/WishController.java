@@ -33,14 +33,24 @@ public class WishController {
 //        model.addAttribute("ongoingList", service.getOngoingAlerts(userId));
 //        model.addAttribute("expiredList", service.getExpiredAlerts(userId));
 		
-		int testUserId = 1; // 원하는 테스트용 사용자 번호로 설정
-        model.addAttribute("achievedList", service.getAchievedAlerts(testUserId));
-        model.addAttribute("ongoingList", service.getOngoingAlerts(testUserId));
-        model.addAttribute("expiredList", service.getExpiredAlerts(testUserId));
+		int userId = 46; // 원하는 테스트용 사용자 번호로 설정
+        model.addAttribute("achievedList", service.getAchievedAlerts(userId));
+        model.addAttribute("ongoingList", service.getOngoingAlerts(userId));
+        model.addAttribute("expiredList", service.getExpiredAlerts(userId));
+        
+        model.addAttribute("alertList", service.getSentAlerts(userId));
+        model.addAttribute("unreadCount", service.countUnreadAlerts(userId));
+        service.markAlertsAsRead(userId); // 팝업 열 때 읽음 처리
 
         return "mypage/myWishGoods";
     }
-
+	//test
+	@GetMapping("/test/trigger-alert")
+	public String triggerAlertCheck() {
+	    service.checkAlerts(); // 강제 실행
+	    return "redirect:/mypage/myWishGoods"; // 마이페이지로 리다이렉트
+	}
+	
     @PostMapping("/wish/delete")
     public String deleteWish(@RequestParam("alertNo") int alertNo) {
     	service.deleteAlert(alertNo);
@@ -51,15 +61,5 @@ public class WishController {
     public String viewProduct(@PathVariable("goodsNo") int goodsNo, Model model) {
         model.addAttribute("product", service.getProductByGoodsNo(goodsNo));
         return "product/detail";
-    }
-	
-    @GetMapping("/notifications")
-    public String viewNotifications(HttpSession session, Model model) {
-        int testUserId = 1; // 실제 사용 시 로그인 사용자 정보로 대체
-        model.addAttribute("achievedList", service.getAchievedAlerts(testUserId));
-        model.addAttribute("ongoingList", service.getOngoingAlerts(testUserId));
-        model.addAttribute("expiredList", service.getExpiredAlerts(testUserId));
-        
-        return "mypage/notification";
     }
 }

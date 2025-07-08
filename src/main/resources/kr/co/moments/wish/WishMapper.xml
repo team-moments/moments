@@ -5,7 +5,10 @@
 
 	<!-- 전체 알림 리스트 조회 -->
 	<select id="selectAllAlerts" resultType="kr.co.moments.domain.AlertVO">
-	    SELECT a.*, g.goods_name AS name
+	    SELECT 
+	    	a.*, 
+	    	g.goods_name AS name,
+	    	g.goods_id AS goodsId
 	    FROM tb_alert a
 	    JOIN tb_goods g ON a.goods_no = g.goods_no
 	</select>
@@ -18,8 +21,9 @@
 	<!-- 최신 가격 정보 조회 -->
 	<select id="getLatestPriceByGoodsId" resultType="kr.co.moments.domain.DailyPriceVO">
 	    SELECT *
-	    FROM tb_daily_price
-	    WHERE goods_id = #{goodsId}
+	    FROM tb_daily_price dp
+    	JOIN tb_goods g ON dp.goods_id = g.goods_id
+    	WHERE g.goods_no = #{goodsNo}
 	    ORDER BY register_date DESC
 	    LIMIT 1
 	</select>
@@ -28,7 +32,8 @@
 	<update id="updateAlertStatus">
 	    UPDATE tb_alert
 	    SET is_achieve = #{is_achieve},
-	        is_sent = #{is_sent}
+	        is_sent = #{is_sent},
+	        sent_date = #{sent_date}
 	    WHERE alert_no = #{alert_no}
 	</update>
 	
@@ -76,6 +81,7 @@
 	    ) dp ON g.goods_id = dp.goods_id
 	    WHERE a.users_no = #{userId}
 	      AND a.is_achieve = 1
+	      AND DATE_ADD(a.register_date, INTERVAL a.period DAY) >= NOW()
 	</select>
 
 
@@ -112,5 +118,35 @@
     <select id="selectProductByGoodsNo" resultType="kr.co.moments.domain.GoodsVO">
         SELECT * FROM tb_goods WHERE goods_no = #{goodsNo}
     </select>
-
+    
+    <!-- 이메일이 발송된 알림만 조회 -->
+	<select id="selectSentAlerts" resultType="kr.co.moments.domain.AlertVO">
+	    SELECT 
+	        a.*, 
+	        g.goods_name AS name 
+	    FROM tb_alert a
+	    JOIN tb_goods g ON a.goods_no = g.goods_no
+	    WHERE a.users_no = #{userId}
+	      AND a.is_sent IN (1, 2)  -- 1: 달성, 2: 만료
+	    ORDER BY a.register_date DESC
+	    LIMIT 5
+	</select>
+    
+	<select id="countUnreadAlerts" resultType="int">
+	    SELECT COUNT(*)
+	    FROM tb_alert
+	    WHERE users_no = #{userId}
+	      AND is_sent IN (1,2)
+	      AND is_read = 0
+	</select>
+	
+	 <!-- 알림 읽음 처리 -->
+	<update id="markAlertsAsRead">
+	    UPDATE tb_alert
+	    SET is_read = 1
+	    WHERE users_no = #{userId}
+	      AND is_sent IN (1, 2)
+	      AND is_read = 0
+	</update>
+	
 </mapper>

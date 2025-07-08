@@ -23,7 +23,7 @@
 				    <h3>달성 상품 목록</h3>
 				    <div class="product-list achieved">
 				        <c:forEach var="item" items="${achievedList}">
-				        	<div class="product-box achieved" onclick="window.open('${item.coupangLink}', '_blank')">
+				        	<div class="product-box achieved">
 				                <img src="${item.image}" alt="상품 이미지" />
 					                <div class="product-info">
 					                	<div class="product-name">상품명 : ${item.name}</div>
