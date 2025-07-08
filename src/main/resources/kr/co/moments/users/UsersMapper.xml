@@ -4,16 +4,31 @@
 <mapper namespace="kr.co.moments.users.UsersMapper">   
 	<insert id="userInsert" parameterType="kr.co.moments.domain.UsersVO">
 		insert into tb_users (
-			 users_email, users_pwd, users_name, users_phone, users_salt
+			 users_email, users_pwd, users_name, users_phone
 		) values (
-			#{users_email}, #{users_pwd}, #{users_name}, #{users_phone}, #{users_salt}
+			#{users_email}, #{users_pwd}, #{users_name}, #{users_phone}
 		);
 	</insert>
-	<select id="userSelect" resultType="kr.co.moments.domain.UsersVO" parameterType="String" >
+	<select id="findByUserEmail" resultType="kr.co.moments.domain.UsersVO" parameterType="String" >
 		select *
 		from tb_users
-		where users_email = #{users_email};
+		where users_email = #{user_email};
 	</select>
+
+	<!-- 리프레시 토큰 저장 -->
+	<update id="updateRefreshToken" parameterType="String">
+	    UPDATE tb_users
+	    SET refresh_token = #{refreshToken}
+	    WHERE users_email = #{email}
+	</update>
+	
+	  <!-- 리프레시 토큰 삭제 (로그아웃) -->
+	<update id="deleteRefreshToken" parameterType="String">
+	    UPDATE tb_users
+	    SET refresh_token = NULL
+	    WHERE users_email = #{email}
+ 	</update>
+
 	
 	<select id="selectUserByUserNo" parameterType="int" resultType="kr.co.moments.domain.UsersVO">
     	SELECT * FROM tb_users WHERE users_no = #{userNo}
@@ -25,7 +40,5 @@
 	    WHERE users_email = #{users_email}
 	</update>
 
-	
-	
-	
+
 </mapper>
