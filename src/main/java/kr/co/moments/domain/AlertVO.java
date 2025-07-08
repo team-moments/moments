@@ -1,6 +1,7 @@
 package kr.co.moments.domain;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -13,7 +14,9 @@ public class AlertVO {
 		private int is_sent;
 		private int wish_price;
 		private int period;
+		private Long goodsId;
 		private Timestamp register_date;
+		private Timestamp sent_date;
 		
 		 // 상품 관련 정보 추가
 	    private String image;

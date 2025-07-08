@@ -13,4 +13,7 @@ public interface WishService {
     void deleteAlert(int alertNo);
     GoodsVO getProductByGoodsNo(int goodsNo);
     void checkAlerts(); // 가격 도달 및 기간 만료 체크
+    List<AlertVO> getSentAlerts(int userId);
+    int countUnreadAlerts(int userId);
+    void markAlertsAsRead(int userId);
 }

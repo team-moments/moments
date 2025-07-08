@@ -107,7 +107,7 @@ public class UsersController {
 	
 	
 	
-	
+	//session 말고 다른 방식으로 바꿔야함 !!!!!
 	// GET 요청으로 userEdit.jsp 띄우기
     @GetMapping("/userEdit")
     public String userEditPage(@RequestParam("field") String field, Model model) {
