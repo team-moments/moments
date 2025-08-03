@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.moments.main.MainMapper">
+
+    <!-- 전체 상품 조회 -->
+    <select id="selectAllGoods" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT 
+            g.goods_no AS goods_no,
+            g.goods_id,
+            g.goods_name, 
+            g.goods_image, 
+            g.category_no,
+            g.drop_rate,
+            dp.price
+        FROM tb_goods g
+        JOIN (
+            SELECT dp.goods_id, dp.price
+            FROM tb_daily_price dp
+            WHERE (dp.goods_id, dp.register_date) IN (
+                SELECT goods_id, MAX(register_date)
+                FROM tb_daily_price
+                GROUP BY goods_id
+            )
+        ) dp ON g.goods_id = dp.goods_id
+    </select> 
+
+<!-- 검색 -->
+ <select id="searchGoodsByKeyword" parameterType="map" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT 
+            g.goods_no AS goods_no,
+            g.goods_id,
+            g.goods_name, 
+            g.goods_image, 
+            g.category_no,
+            g.drop_rate,
+            dp.price
+        FROM tb_goods g
+        JOIN (
+            SELECT dp.goods_id, dp.price
+            FROM tb_daily_price dp
+            WHERE (dp.goods_id, dp.register_date) IN (
+                SELECT goods_id, MAX(register_date)
+                FROM tb_daily_price
+                GROUP BY goods_id
+            )
+        ) dp ON g.goods_id = dp.goods_id
+        WHERE g.goods_name LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+    <!-- 카테고리별 상품 조회 -->
+    <select id="selectGoodsByCategory" parameterType="int" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT 
+            g.goods_no AS goods_no,
+            g.goods_id, 
+            g.goods_name, 
+            g.goods_image, 
+            g.category_no, 
+            g.drop_rate,
+            p.price
+        FROM tb_goods g
+        JOIN tb_daily_price p ON g.goods_id = p.goods_id
+        WHERE g.category_no = #{category_no}
+    </select> 
+   
+    <!-- 낮은 가격순 -->
+    <select id="selectGoodsPriceAsc" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT 
+            g.goods_no AS goods_no,
+            g.goods_id, 
+            g.goods_name, 
+            g.goods_image, 
+            g.category_no, 
+            g.drop_rate, 
+            dp.price
+        FROM tb_goods g
+        JOIN (
+            SELECT dp.goods_id, dp.price
+            FROM tb_daily_price dp
+            WHERE (dp.goods_id, dp.register_date) IN (
+                SELECT goods_id, MAX(register_date)
+                FROM tb_daily_price
+                GROUP BY goods_id
+            )
+        ) dp ON g.goods_id = dp.goods_id
+        ORDER BY dp.price ASC
+        LIMIT 8
+    </select>
+    
+    <!-- 높은 가격순 -->
+    <select id="selectGoodsPriceDesc" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT 
+            g.goods_no AS goods_no,
+            g.goods_id, 
+            g.goods_name, 
+            g.goods_image, 
+            g.category_no, 
+            g.drop_rate, 
+            dp.price
+        FROM tb_goods g
+        JOIN (
+            SELECT dp.goods_id, dp.price
+            FROM tb_daily_price dp
+            WHERE (dp.goods_id, dp.register_date) IN (
+                SELECT goods_id, MAX(register_date)
+                FROM tb_daily_price
+                GROUP BY goods_id
+            )
+        ) dp ON g.goods_id = dp.goods_id
+        ORDER BY dp.price DESC
+        LIMIT 8
+    </select>
+
+    <!-- 급락순 -->
+	<select id="selectGoodsDropDesc" resultType="kr.co.moments.domain.GoodsVO">
+	        SELECT 
+	            g.goods_no,
+	            g.goods_id,
+	            g.goods_name,
+	            g.goods_image,
+	            g.category_no,
+	            g.wish_cnt,
+	            today.price,
+	            ROUND((stats.max_price - today.price) / stats.max_price * 100, 2) AS drop_rate
+	        FROM tb_goods g
+	        LEFT JOIN (
+	            SELECT goods_id, price
+	            FROM tb_daily_price
+	            WHERE (goods_id, register_date) IN (
+	                SELECT goods_id, MAX(register_date)
+	                FROM tb_daily_price
+	                GROUP BY goods_id
+	            )
+	        ) today ON g.goods_id = today.goods_id
+	        LEFT JOIN (
+	            SELECT goods_id,
+	                   MAX(price) AS max_price
+	            FROM tb_daily_price
+	            WHERE register_date >= CURDATE() - INTERVAL 1 MONTH
+	            GROUP BY goods_id
+	        ) stats ON g.goods_id = stats.goods_id
+	        WHERE stats.max_price IS NOT NULL
+	        ORDER BY drop_rate DESC
+	        LIMIT 8
+	    </select>
+
+
+    
+    <!-- 위시순 정렬 -->
+    <select id="selectGoodsWishDesc" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT 
+            g.goods_no AS goods_no,
+            g.goods_id,
+            g.goods_name,
+            g.goods_image,
+            g.category_no,
+            g.drop_rate,
+            dp.price,
+            g.wish_cnt
+        FROM tb_goods g
+        JOIN (
+            SELECT dp.goods_id, dp.price
+            FROM tb_daily_price dp
+            WHERE (dp.goods_id, dp.register_date) IN (
+                SELECT goods_id, MAX(register_date)
+                FROM tb_daily_price
+                GROUP BY goods_id
+            )
+        ) dp ON g.goods_id = dp.goods_id
+        ORDER BY g.wish_cnt DESC
+        LIMIT 8
+    </select>
+
+    <!-- 카테고리 내 낮은 가격순 -->
+    <select id="selectGoodsByCategoryOrderByPriceAsc" parameterType="int" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT 
+            g.goods_no AS goods_no,
+            g.goods_id,
+            g.goods_name,
+            g.goods_image,
+            g.category_no,
+            g.drop_rate,
+            p.price
+        FROM tb_goods g
+        JOIN tb_daily_price p ON g.goods_id = p.goods_id
+        WHERE g.category_no = #{category_no}
+        ORDER BY p.price ASC
+    </select>
+
+    <!-- 카테고리 내 높은 가격순 -->
+    <select id="selectGoodsByCategoryOrderByPriceDesc" parameterType="int" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT 
+            g.goods_no AS goods_no,
+            g.goods_id,
+            g.goods_name,
+            g.goods_image,
+            g.category_no,
+            g.drop_rate,
+            p.price
+        FROM tb_goods g
+        JOIN tb_daily_price p ON g.goods_id = p.goods_id
+        WHERE g.category_no = #{category_no}
+        ORDER BY p.price DESC
+    </select>
+
+    <!-- 카테고리 내 위시순 정렬 -->
+    <select id="selectGoodsByCategoryOrderByWishCountDesc" parameterType="int" resultType="kr.co.moments.domain.GoodsVO">
+        SELECT 
+            g.goods_no AS goods_no,
+            g.goods_id,
+            g.goods_name,
+            g.goods_image,
+            g.category_no,
+            g.drop_rate,
+            g.wish_cnt,
+            p.price
+        FROM tb_goods g
+        JOIN tb_daily_price p ON g.goods_id = p.goods_id
+        WHERE g.category_no = #{category_no}
+        ORDER BY g.wish_cnt DESC
+    </select>
+    
+    
+   <!-- 카테고리 내 급락순 정렬 -->
+<select id="selectGoodsByCategoryOrderByDropRateDesc" parameterType="int" resultType="kr.co.moments.domain.GoodsVO">
+    SELECT 
+        g.goods_no,
+        g.goods_id,
+        g.goods_name,
+        g.goods_image,
+        g.category_no,
+        g.wish_cnt,
+        today.price,
+        ROUND((stats.max_price - today.price) / stats.max_price * 100, 2) AS drop_rate
+    FROM tb_goods g
+    LEFT JOIN (
+        SELECT goods_id, price
+        FROM tb_daily_price
+        WHERE (goods_id, register_date) IN (
+            SELECT goods_id, MAX(register_date)
+            FROM tb_daily_price
+            GROUP BY goods_id
+        )
+    ) today ON g.goods_id = today.goods_id
+    LEFT JOIN (
+        SELECT goods_id,
+               MAX(price) AS max_price
+        FROM tb_daily_price
+        WHERE register_date >= CURDATE() - INTERVAL 1 MONTH
+        GROUP BY goods_id
+    ) stats ON g.goods_id = stats.goods_id
+    WHERE g.category_no = #{category_no}
+      AND stats.max_price IS NOT NULL
+    ORDER BY drop_rate DESC
+</select>
+
+    
+</mapper>

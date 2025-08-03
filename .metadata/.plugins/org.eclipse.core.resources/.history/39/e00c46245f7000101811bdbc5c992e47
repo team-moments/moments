@@ -1,0 +1,156 @@
+/* 일반적인 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 검색창 스타일 */
+.input-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.input-box {
+    width: 700px;
+    height: 60px;
+    border-radius: 24px;
+    border: 1px solid #dfe1dfe5;
+    padding-left: 45px;
+    padding-right: 45px;
+    font-size: 16px;
+    color: #202124;
+}
+
+.search-icon {
+    position: absolute;
+    left: 25px;
+    color: #9aa0a6;
+}
+
+.search-btn {
+    height: 60px;
+    background-color: #F49222;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 0 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.search-btn:hover {
+    background-color: #F5752B;
+}
+
+/* 카테고리 목록 스타일 */
+#categoryCarousel {
+    margin-top: 40px;
+}
+
+.carousel-inner {
+    display: flex;
+    justify-content: center;
+}
+
+.carousel-item .category-button-area {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.category-button-style {
+    height: 36px;
+    border: 1px solid #f8f9fa;
+    background-color: #F5E6D5;
+    border-radius: 4px;
+    font-family: arial, sans-serif;
+    padding: 0 16px;
+    margin: 11px 4px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.category-button-style:hover {
+    background-color: #F49222;
+    border: 1px solid #dadce0;
+    color: #202124;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* 검색 결과 영역 */
+.container h4 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card {
+    text-decoration: none;
+    border: none;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #666;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+    border-radius: 8px;
+}
+
+/* 상품 목록 스타일 */
+.row {
+    margin-top: 20px;
+}
+
+.col-md-3 {
+    margin-bottom: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* 검색 결과 없을 때 메시지 */
+.col-12.text-center.mt-5 p {
+    color: #9aa0a6;
+    font-size: 16px;
+}
+
+/* Footer */
+footer {
+    background-color: #F49222;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.first-line {
+    border-bottom: 1px solid #BDBDBD;
+}
+
+.second-line {
+    display: none;
+}

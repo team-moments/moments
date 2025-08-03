@@ -1,0 +1,22 @@
+package kr.co.moments.goods;
+
+import java.util.List;
+
+import kr.co.moments.domain.DailyPriceVO;
+import kr.co.moments.domain.GoodsVO;
+
+public interface GoodsService {
+public int insertGoods (GoodsVO vo);
+public int insertPrice (DailyPriceVO vo);
+
+//06.28
+public List<GoodsVO> getSortedGoods(String sort);
+public GoodsVO getGoodsByNo(int goodsNo);
+
+public List<DailyPriceVO> getPriceHistoryLastMonth(String goods_id);
+
+public List<GoodsVO> searchGoods(String keyword, String sort) {
+    return goodsMapper.selectAllGoodsByKeyword(keyword, sort);
+}
+
+}

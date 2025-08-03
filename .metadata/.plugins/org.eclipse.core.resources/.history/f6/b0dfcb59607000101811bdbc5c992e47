@@ -1,0 +1,56 @@
+/* 카테고리 목록 스타일 */
+.category-container {
+    margin-top: 40px;
+    position: relative;
+}
+
+.category-button-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.category-button-style {
+    height: 36px;
+    border: 1px solid #f8f9fa;
+    background-color: #F5E6D5;
+    border-radius: 4px;
+    font-family: arial, sans-serif;
+    padding: 0 16px;
+    margin: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.category-button-style:hover {
+    background-color: #F49222;
+    border: 1px solid #dadce0;
+    color: #202124;
+    transform: translateY(-2px);
+}
+
+/* 부트스트랩 carousel */
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: #000; /* 화살표 색상 */
+}
+
+/* 화살표 버튼 */
+.carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    border: none;
+    padding: 10px;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: white;
+}

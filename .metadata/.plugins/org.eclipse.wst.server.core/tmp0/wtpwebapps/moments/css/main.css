@@ -1,0 +1,195 @@
+/* 일반적인 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 검색창 스타일 */
+.input-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.input-box {
+    width: 700px;
+    height: 60px;
+    border-radius: 24px;
+    border: 1px solid #dfe1dfe5;
+    padding-left: 45px;
+    padding-right: 45px;
+    font-size: 16px;
+    color: #202124;
+}
+
+.search-icon {
+    position: absolute;
+    left: 25px;
+    color: #9aa0a6;
+}
+
+.search-btn {
+    height: 60px;
+    background-color: #F49222;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 0 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.search-btn:hover {
+    background-color: #F5752B;
+}
+
+/* 카테고리 목록 스타일 */
+.category-container {
+    margin-top: 40px;
+    position: relative;
+}
+
+.category-button-area {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+/* 카테고리 버튼 스타일 */
+.category-button-style {
+    height: 36px;
+    border: 1px solid #f8f9fa;
+    background-color: #F5E6D5;
+    border-radius: 4px;
+    font-family: arial, sans-serif;
+    padding: 0 16px;
+    margin: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.category-button-style:hover {
+    background-color: #F49222;
+    border: 1px solid #dadce0;
+    color: #202124;
+    transform: translateY(-2px);
+}
+
+/* 부트스트랩 carousel */
+.carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.5); /* 반투명 배경 */
+    border: none;
+    padding: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+/* 이전 화살표 왼쪽으로 이동 */
+.carousel-control-prev {
+    left: -40px; /* 카테고리 목록 왼쪽에 배치 */
+}
+
+/* 다음 화살표 오른쪽으로 이동 */
+.carousel-control-next {
+    right: -40px; /* 카테고리 목록 오른쪽에 배치 */
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: #F49222; /* 포인트 색상 (오렌지색) */
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+/* 화살표 버튼 호버 시 효과 */
+.carousel-control-prev:hover, .carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.7); /* 호버 시 버튼 배경 어두워짐 */
+}
+
+.carousel-control-prev-icon:hover, .carousel-control-next-icon:hover {
+    background-color: #F5752B; /* 화살표 색상 변화 (더 진한 오렌지색) */
+}
+
+/* 상품 목록 스타일 */
+.container h4 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card {
+    text-decoration: none;
+    border: none;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #666;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+    border-radius: 8px;
+}
+
+/* 상품 목록 스타일 */
+.row {
+    margin-top: 20px;
+}
+
+.col-md-3 {
+    margin-bottom: 20px;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* 검색 결과 없을 때 메시지 */
+.col-12.text-center.mt-5 p {
+    color: #9aa0a6;
+    font-size: 16px;
+}
+
+/* Footer */
+footer {
+    background-color: #F49222;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.first-line {
+    border-bottom: 1px solid #BDBDBD;
+}
+
+.second-line {
+    display: none;
+}
